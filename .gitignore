@@ -5,3 +5,4 @@ BenchmarkDotNet.Artifacts/
 
 # Ignore pre compiled web interface
 docker/dist
+.vscode/

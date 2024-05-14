@@ -36,7 +36,7 @@ mkdir package
 cd package || exit 1
 
 # Copy the freshly built plugin DLL to the packaging directory and archive
-cp "../ConfusedPolarBear.Plugin.IntroSkipper/bin/Release/net6.0/ConfusedPolarBear.Plugin.IntroSkipper.dll" ./ || exit 1
+cp "../ConfusedPolarBear.Plugin.IntroSkipper/bin/Release/net8.0/ConfusedPolarBear.Plugin.IntroSkipper.dll" ./ || exit 1
 zip "$zip" ConfusedPolarBear.Plugin.IntroSkipper.dll || exit 1
 
 # Calculate the checksum of the archive
