@@ -1,8 +1,10 @@
 using System;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 using MediaBrowser.Controller.Library;
 using MediaBrowser.Controller.Plugins;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
 namespace ConfusedPolarBear.Plugin.IntroSkipper;
@@ -10,7 +12,7 @@ namespace ConfusedPolarBear.Plugin.IntroSkipper;
 /// <summary>
 /// Server entrypoint.
 /// </summary>
-public class Entrypoint : IServerEntryPoint
+public class Entrypoint : IHostedService, IDisposable
 {
     private readonly IUserManager _userManager;
     private readonly IUserViewManager _userViewManager;
@@ -44,7 +46,8 @@ public class Entrypoint : IServerEntryPoint
     /// Registers event handler.
     /// </summary>
     /// <returns>Task.</returns>
-    public Task RunAsync()
+    /// <inheritdoc />
+    public Task StartAsync(CancellationToken cancellationToken)
     {
         FFmpegWrapper.Logger = _logger;
 
@@ -63,6 +66,13 @@ public class Entrypoint : IServerEntryPoint
             _logger.LogError("Unable to run startup enqueue: {Exception}", ex);
         }
 
+        return Task.CompletedTask;
+    }
+
+    /// <inheritdoc />
+    public Task StopAsync(CancellationToken cancellationToken)
+    {
+        Dispose(true);
         return Task.CompletedTask;
     }
 

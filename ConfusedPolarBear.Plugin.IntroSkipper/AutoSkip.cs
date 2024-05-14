@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 using System.Timers;
 using MediaBrowser.Common.Extensions;
 using MediaBrowser.Controller.Library;
-using MediaBrowser.Controller.Plugins;
 using MediaBrowser.Controller.Session;
 using MediaBrowser.Model.Entities;
 using MediaBrowser.Model.Session;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
 namespace ConfusedPolarBear.Plugin.IntroSkipper;
@@ -17,7 +17,7 @@ namespace ConfusedPolarBear.Plugin.IntroSkipper;
 /// Automatically skip past introduction sequences.
 /// Commands clients to seek to the end of the intro as soon as they start playing it.
 /// </summary>
-public class AutoSkip : IServerEntryPoint
+public class AutoSkip : IHostedService, IDisposable
 {
     private readonly object _sentSeekCommandLock = new();
 
@@ -48,7 +48,8 @@ public class AutoSkip : IServerEntryPoint
     /// If introduction auto skipping is enabled, set it up.
     /// </summary>
     /// <returns>Task.</returns>
-    public Task RunAsync()
+    /// <inheritdoc />
+    public Task StartAsync(CancellationToken cancellationToken)
     {
         _logger.LogDebug("Setting up automatic skipping");
 
@@ -60,6 +61,14 @@ public class AutoSkip : IServerEntryPoint
         _playbackTimer.Elapsed += PlaybackTimer_Elapsed;
 
         AutoSkipChanged(null, EventArgs.Empty);
+
+        return Task.CompletedTask;
+    }
+
+    /// <inheritdoc />
+    public Task StopAsync(CancellationToken cancellationToken)
+    {
+        _userDataManager.UserDataSaved -= UserDataManager_UserDataSaved;
 
         return Task.CompletedTask;
     }

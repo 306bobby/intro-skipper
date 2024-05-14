@@ -134,11 +134,11 @@ public class QueueManager
         {
             // Order by series name, season, and then episode number so that status updates are logged in order
             ParentId = Guid.Parse(rawId),
-            OrderBy = new[]
+            OrderBy = new List<(ItemSortBy, SortOrder)>
             {
-                ("SeriesSortName", SortOrder.Ascending),
-                ("ParentIndexNumber", SortOrder.Ascending),
-                ("IndexNumber", SortOrder.Ascending),
+                (ItemSortBy.SeriesSortName, SortOrder.Ascending),
+                (ItemSortBy.ParentIndexNumber, SortOrder.Ascending),
+                (ItemSortBy.IndexNumber, SortOrder.Ascending)
             },
             IncludeItemTypes = new BaseItemKind[] { BaseItemKind.Episode },
             Recursive = true,

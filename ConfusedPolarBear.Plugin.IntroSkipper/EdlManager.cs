@@ -74,7 +74,14 @@ public static class EdlManager
                 continue;
             }
 
-            var edlPath = GetEdlPath(Plugin.Instance!.GetItemPath(id));
+            var itemPath = Plugin.Instance!.GetItemPath(id);
+            if (string.IsNullOrEmpty(itemPath))
+            {
+                _logger?.LogWarning("Episode {Id} did not have a path, skipping", id);
+                continue;
+            }
+
+            var edlPath = GetEdlPath(itemPath);
 
             _logger?.LogTrace("Episode {Id} has EDL path {Path}", id, edlPath);
 

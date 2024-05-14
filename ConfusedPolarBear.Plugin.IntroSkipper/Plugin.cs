@@ -274,7 +274,7 @@ public class Plugin : BasePlugin<PluginConfiguration>, IHasWebPages
         return commit;
     }
 
-    internal BaseItem GetItem(Guid id)
+    internal BaseItem? GetItem(Guid id)
     {
         return _libraryManager.GetItemById(id);
     }
@@ -284,9 +284,9 @@ public class Plugin : BasePlugin<PluginConfiguration>, IHasWebPages
     /// </summary>
     /// <param name="id">Item id.</param>
     /// <returns>Full path to item.</returns>
-    internal string GetItemPath(Guid id)
+    internal string? GetItemPath(Guid id)
     {
-        return GetItem(id).Path;
+        return GetItem(id)?.Path;
     }
 
     /// <summary>
