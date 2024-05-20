@@ -1,3 +1,5 @@
+# Please use the jellyfin recommended version https://github.com/jumoog/intro-skipper/
+
 # Intro Skipper (beta)
 
 <div align="center">
